@@ -18,9 +18,10 @@ Create a library to support the Twitter streaming API, the reconnect strategy, a
 ## Give it a try
 
 1. $ cd Scala-TwitterStreamer
-2. $ sbt update
-3. $ sbt run
-4. Select one of the two sample clients.
+2. Edit config/TwitterStreamer.conf and add your Twitter username and password *Important*
+3. $ sbt update
+4. $ sbt run
+5. Select one of the two sample clients.
 
 ## Usage
 
