@@ -41,9 +41,7 @@ Create a client and run it:
 ### Custom behavior
 First you need to define what you want to do with the stream. Here's an example that just prints every line we get to stdout:
 
-1.
-  CustomProcessing.scala
-
+CustomProcessing.scala
 
    package com.linkedin.led.twitter.streaming
    import java.io.InputStream
@@ -64,8 +62,6 @@ First you need to define what you want to do with the stream. Here's an example 
      }
     }
 
-
-2.
   package com.linkedin.led.twitter.streaming
   object TestStream {
     def main(args: Array[String]) = {
