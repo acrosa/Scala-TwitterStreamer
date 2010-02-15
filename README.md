@@ -41,13 +41,7 @@ Create a client and run it:
 ### Custom behavior
 First you need to define what you want to do with the stream. Here's an example that just prints every line we get to stdout:
 
-CustomProcessing.scala
 
-   package com.linkedin.led.twitter.streaming
-   import java.io.InputStream
-   import java.io.InputStreamReader
-   import java.io.BufferedReader
-   
    class CustomProcessor extends StreamProcessor {
      override def process(is: InputStream): Unit = {
        val reader: BufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"))
@@ -62,7 +56,6 @@ CustomProcessing.scala
      }
     }
 
-  package com.linkedin.led.twitter.streaming
   object TestStream {
     def main(args: Array[String]) = {
       val username = Config.readString("username")
