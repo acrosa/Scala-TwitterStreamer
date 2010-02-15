@@ -25,8 +25,6 @@ Create a library to support the Twitter streaming API, the reconnect strategy, a
 
 ## Usage
 
-First, you need to define what you want to do with the output, you do that by inheriting from StreamProcessor and defining the process method. Here's a simple example:
-
 Create a client and run it:
 
     import com.linkedin.led.twitter.streaming._
