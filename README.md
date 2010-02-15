@@ -45,13 +45,10 @@ First you need to define what you want to do with the stream. Here's an example 
 CustomProcessing.scala
 
    package com.linkedin.led.twitter.streaming
-   
    import java.io.InputStream
    import java.io.InputStreamReader
    import java.io.BufferedReader
    
-   // This streamProcessor just outputs the parsed objects on the screen.
-   //
    class CustomProcessor extends StreamProcessor {
      override def process(is: InputStream): Unit = {
        val reader: BufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"))
@@ -68,13 +65,12 @@ CustomProcessing.scala
 
 2.
   package com.linkedin.led.twitter.streaming
-
   object TestStream {
     def main(args: Array[String]) = {
       val username = Config.readString("username")
       val password = Config.readString("password")
       val processor = new CustomProcessor()
-  
+      
       val twitterClient = new StreamingClient(username, password, processor)
       twitterClient.sample
     }
