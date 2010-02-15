@@ -61,7 +61,7 @@ CustomProcessing.scala
        
        is.close
      }
-   }
+    }
 
 2.
   package com.linkedin.led.twitter.streaming
@@ -74,6 +74,6 @@ CustomProcessing.scala
       val twitterClient = new StreamingClient(username, password, processor)
       twitterClient.sample
     }
-  }
+    }
 
 Alejandro Crosa <<alejandrocrosa@gmail.com>>
