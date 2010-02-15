@@ -70,10 +70,9 @@ CustomProcessing.scala
       val username = Config.readString("username")
       val password = Config.readString("password")
       val processor = new CustomProcessor()
-      
       val twitterClient = new StreamingClient(username, password, processor)
       twitterClient.sample
     }
-    }
+  }
 
 Alejandro Crosa <<alejandrocrosa@gmail.com>>
