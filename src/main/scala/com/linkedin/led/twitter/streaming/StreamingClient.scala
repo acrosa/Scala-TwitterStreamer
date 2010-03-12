@@ -35,33 +35,35 @@ class StreamingClient(val username: String, val password: String, streamProcesso
    * in the case of errors, backs off.
    *  @param method the http method to use with the necessary parameters already set
    */
-  def stream(method: HttpMethod): Unit = {
-    val httpClient: HttpClient = this.getStreamingHttpClient(method)
-
-    // Use compression and a custom user agent
-    method.setRequestHeader("Accept-Encoding", "gzip")
-    method.setRequestHeader("User-Agent", Config.readString("userAgent"))
-
+  final def stream(method: HttpMethod): Unit = {
     try {
-      httpClient.executeMethod(method)
-
-      // Check we received the correct HTTP status on the first attempt to connect
-      if (method.getStatusCode() != HttpStatus.SC_OK) {
-        throw new HttpException("There was a problem connecting, HTTP code received was: " + 
-        method.getStatusCode() +" "+ method.getStatusLine())
-      }
-
-      // Reset the errors since the request was successful
-      this.resetBackOffs()
-
-      // Let's delegate the processing to the StreamProcessor object
-      // You must override the process method in order to do a custom processing with the stream
-      streamProcessor.process(method.getResponseBodyAsStream())
-    } catch {
-      case e: InterruptedException => return;
-      case e: HttpException => httpBackOff.backOff
-      case e: IOException   => tcpBackOff.backOff
-      case _ =>
+      val httpClient: HttpClient = this.getStreamingHttpClient(method)
+      
+      // Use compression and a custom user agent
+      method.setRequestHeader("Accept-Encoding", "gzip")
+      method.setRequestHeader("User-Agent", Config.readString("userAgent"))
+      
+      try {
+        httpClient.executeMethod(method)
+      
+        // Check we received the correct HTTP status on the first attempt to connect
+        if (method.getStatusCode() != HttpStatus.SC_OK) {
+          throw new HttpException("There was a problem connecting, HTTP code received was: " + 
+          method.getStatusCode() +" "+ method.getStatusLine())
+        }
+      
+        // Reset the errors since the request was successful
+        this.resetBackOffs()
+      
+        // Let's delegate the processing to the StreamProcessor object
+        // You must override the process method in order to do a custom processing with the stream
+        streamProcessor.process(method.getResponseBodyAsStream())
+      } catch {
+        case e: InterruptedException => return;
+        case e: HttpException => httpBackOff.backOff
+        case e: IOException   => tcpBackOff.backOff
+        case _ =>
+      }      
     } finally {
       method.abort
       method.releaseConnection
