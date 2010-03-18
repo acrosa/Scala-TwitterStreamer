@@ -65,7 +65,6 @@ class StreamingClient(val username: String, val password: String, streamProcesso
         case _ =>
       }      
     } finally {
-      method.abort
       method.releaseConnection
     }
 
