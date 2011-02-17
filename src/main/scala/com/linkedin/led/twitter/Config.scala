@@ -8,6 +8,11 @@ object Config {
   Configgy.configure("config/TwitterStreamer.conf")
   val config = Configgy.config
 
+  /*
+   * Register config with JMX
+   */
+  config.registerWithJmx("com.twitterstream.stream")
+
   def getString(key: String) = config.getString(key)
 
   def readString(key: String) = config.getString(key) match {
