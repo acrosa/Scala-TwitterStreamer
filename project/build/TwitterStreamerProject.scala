@@ -11,7 +11,7 @@ class TwitterStreamerProject(info: ProjectInfo) extends DefaultProject(info) wit
 
   val httpclient = "commons-httpclient" % "commons-httpclient" % "3.1"
   val logging    = "commons-logging" % "commons-logging" % "1.1"
-  val configgy   = "net.lag" % "configgy" % "1.4.7" from "http://www.lag.net/repo/net/lag/configgy/1.4.7/configgy-1.4.7.jar"
+  //val configgy   = "net.lag" % "configgy" % "1.4.7" from "http://repository.jboss.org/maven2/net/lag/configgy/1.4.7/configgy-1.4.7.jar"
 
   // Logging
   System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.SimpleLog");
