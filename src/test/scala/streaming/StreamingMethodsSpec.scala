@@ -2,19 +2,13 @@ import com.linkedin.led.twitter.streaming._
 
 import org.specs._
 
-import org.specs.mock.Mockito
-import org.mockito.Mock._
-import org.mockito.Mockito._
-import org.mockito.Mockito.doNothing
-import org.mockito.Matchers._
-
 import scala.collection.mutable.ArrayBuffer
 import org.apache.commons.httpclient._
 
 import org.apache.commons.httpclient.methods.PostMethod
 import org.apache.commons.httpclient.methods.GetMethod
 
-object StreamingMethodsSpec extends Specification with Mockito {
+object StreamingMethodsSpec extends Specification {
   "Streaming Methods" should {
 
     var client: StreamingClientSpecHelper = null

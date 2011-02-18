@@ -10,6 +10,7 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials
 import org.apache.commons.httpclient.auth.AuthScope
 import org.apache.commons.httpclient.HttpMethod
 import org.apache.commons.httpclient.params.HttpMethodParams
+import com.linkedin.led.twitter.config._
 
 /**
  * Twitter Streaming API client

@@ -1,4 +1,4 @@
-package com.linkedin.led.twitter
+package com.linkedin.led.twitter.config
 
 import net.lag.configgy._
 import org.apache.commons.codec.binary.Base64
@@ -15,14 +15,14 @@ object Config {
 
   def getString(key: String) = config.getString(key)
 
-  def readString(key: String) = config.getString(key) match {
-    case Some(value) => value
+  def readString(key: String): String = config.getString(key) match {
+    case Some(value) => value.toString
     case _ => throw new ConfigurationException(key)
   }
 
-  def readInt(key: String) = readString(key).toInt
+  def readInt(key: String): Int = readString(key).toInt
 
-  def readBoolean(key: String) = readString(key) match {
+  def readBoolean(key: String): Boolean = readString(key) match {
     case "true" => true
     case _ => false
   }

@@ -1,5 +1,7 @@
 package com.linkedin.led.twitter.streaming
 
+import com.linkedin.led.twitter.config._
+
 object TestStream {
   def main(args: Array[String]) = {
     val username = Config.readString("username")

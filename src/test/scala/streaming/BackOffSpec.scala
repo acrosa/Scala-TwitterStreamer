@@ -2,12 +2,7 @@ import com.linkedin.led.twitter.streaming._
 
 import org.specs._
 
-import org.specs.mock.Mockito
-import org.mockito.Mock._
-import org.mockito.Mockito._
-import org.mockito.Mockito.doNothing
-
-object BackOffSpec extends Specification with Mockito {
+object BackOffSpec extends Specification {
   "Back Off strategy" should {
 
     var backOff: BackOff = null

@@ -7,6 +7,8 @@ import org.apache.commons.httpclient.HttpMethod
 import org.apache.commons.httpclient.methods.PostMethod
 import org.apache.commons.httpclient.methods.GetMethod
 
+import com.linkedin.led.twitter.config._
+
 /**
  * StreamingMethods
  *
