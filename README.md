@@ -53,6 +53,13 @@ Create a client and run it:
 First you need to define what you want to do with the stream. Here's an example that just prints every line we get to stdout:
 
 
+   import com.streamer.twitter._
+   import com.streamer.twitter.oauth._
+   import com.streamer.twitter.config._
+   import java.io.InputStream
+   import java.io.InputStreamReader
+   import java.io.BufferedReader
+
    class CustomProcessor extends StreamProcessor {
      override def process(is: InputStream): Unit = {
        val reader: BufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"))
