@@ -38,7 +38,7 @@ Create a library to support the Twitter streaming API, the reconnect strategy, O
 Create a client and run it:
 
     import com.streamer.twitter._
-    val twitterClient = new StreamingClient(username, password, processor)
+    val twitterClient = new BasicStreamingClient(username, password, processor)
     twitterClient.sample
 
 ## API Methods
