@@ -53,36 +53,35 @@ Create a client and run it:
 First you need to define what you want to do with the stream. Here's an example that just prints every line we get to stdout:
 
 
-   import com.streamer.twitter._
-   import com.streamer.twitter.oauth._
-   import com.streamer.twitter.config._
-   import java.io.InputStream
-   import java.io.InputStreamReader
-   import java.io.BufferedReader
-
-   class CustomProcessor extends StreamProcessor {
-     override def process(is: InputStream): Unit = {
-       val reader: BufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"))
-       
-       var line = reader.readLine()
-       while (line != null) {
-         println(line)
-         line = reader.readLine()
-       }
-       
-       is.close
-     }
+    import com.streamer.twitter._
+    import com.streamer.twitter.oauth._
+    import com.streamer.twitter.config._
+    import java.io.InputStream
+    import java.io.InputStreamReader
+    import java.io.BufferedReader
+    
+    class CustomProcessor extends StreamProcessor {
+      override def process(is: InputStream): Unit = {
+        val reader: BufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"))
+    
+        var line = reader.readLine()
+        while (line != null) {
+          println(line)
+          line = reader.readLine()
+        }
+        is.close
+      }
     }
-
-  object TestOAuthStream {
-    def main(args: Array[String]) = {
-      val processor = new CustomProcessor()
-      val consumer = Consumer(Config.readString("consumer.key"), Config.readString("consumer.secret"))
-      val token = Token(Config.readString("access.token"), Config.readString("access.secret"))
-
-      val twitterClient = new OAuthStreamingClient(consumer, token, processor)
-      twitterClient.siteStream(Set(16741237,14344469)) // The ids we are going to track, they should have OAuth'ed to us
+    
+    object TestOAuthStream {
+      def main(args: Array[String]) = {
+        val processor = new CustomProcessor()
+        val consumer = Consumer(Config.readString("consumer.key"), Config.readString("consumer.secret"))
+        val token = Token(Config.readString("access.token"), Config.readString("access.secret"))
+    
+        val twitterClient = new OAuthStreamingClient(consumer, token, processor)
+        twitterClient.siteStream(Set(16741237,14344469)) // The ids we are going to track, they should have OAuth'ed to us
+      }
     }
-  }
 
 Alejandro Crosa <<alejandrocrosa@gmail.com>>
