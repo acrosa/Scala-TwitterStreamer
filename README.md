@@ -5,7 +5,7 @@ Create a library to support the Twitter streaming API, the reconnect strategy, O
 
 ## What's in the package
 
-- Basic GET OAuth support
+- Basic GET OAuth support (POST *doesn't work* yet)
 - Apache HttpClient based.
 - Back off strategy built in, so in the case of unexpected errors the library will reconnect:
   - TCP errors start at 250 miliseconds and cap at 16 seconds
