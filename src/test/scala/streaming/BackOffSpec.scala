@@ -1,4 +1,4 @@
-import com.linkedin.led.twitter.streaming._
+import com.streamer.twitter._
 
 import org.specs._
 

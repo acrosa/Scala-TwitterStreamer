@@ -1,4 +1,4 @@
-package com.linkedin.led.twitter.config
+package com.streamer.twitter.config
 
 import net.lag.configgy._
 import org.apache.commons.codec.binary.Base64
@@ -11,7 +11,7 @@ object Config {
   /*
    * Register config with JMX
    */
-  config.registerWithJmx("com.twitterstream.stream")
+  config.registerWithJmx("com.streamer.twitter")
 
   def getString(key: String) = config.getString(key)
 

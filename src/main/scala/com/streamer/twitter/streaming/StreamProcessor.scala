@@ -1,4 +1,4 @@
-package com.linkedin.led.twitter.streaming
+package com.streamer.twitter
 
 import java.io.InputStream
 

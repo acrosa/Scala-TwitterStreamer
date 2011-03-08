@@ -1,10 +1,11 @@
 # Twitter Streaming Client
 
 ## Motivation
-Create a library to support the Twitter streaming API, the reconnect strategy, and error policies specified on their documentation.
+Create a library to support the Twitter streaming API, the reconnect strategy, OAuth authentication, and error policies specified on their documentation.
 
 ## What's in the package
 
+- Basic GET OAuth support (POST *doesn't work* yet)
 - Apache HttpClient based.
 - Back off strategy built in, so in the case of unexpected errors the library will reconnect:
   - TCP errors start at 250 miliseconds and cap at 16 seconds
@@ -19,6 +20,7 @@ Create a library to support the Twitter streaming API, the reconnect strategy, a
 
 1. $ cd Scala-TwitterStreamer
 2. Edit config/TwitterStreamer.conf and add your Twitter username and password *Important*
+   If you want to use OAuth authentication enter your Consumer pair Key, and Access token secret. You can obtain your Access Token by going to http://dev.twitter.com/apps
 3. $ ./sbt update
 4. $ ./sbt run
 5. Select one of the two sample clients.
@@ -26,6 +28,7 @@ Create a library to support the Twitter streaming API, the reconnect strategy, a
 ## Run the sample app
 1. $ cd Scala-TwitterStreamer
 2. Edit config/TwitterStreamer.conf and add your Twitter username and password *Important*
+   If you want to use OAuth authentication enter your Consumer pair Key, and Access token secret. You can obtain your Access Token by going to http://dev.twitter.com/apps
 3. $ ./sbt update
 4. $ ./sh example/run_example.sh
 5. watch the tweets on your screen
@@ -34,7 +37,7 @@ Create a library to support the Twitter streaming API, the reconnect strategy, a
 
 Create a client and run it:
 
-    import com.linkedin.led.twitter.streaming._
+    import com.streamer.twitter._
     val twitterClient = new StreamingClient(username, password, processor)
     twitterClient.sample
 
@@ -44,6 +47,7 @@ Create a client and run it:
 - Firehose Returns all public statuses. The Firehose is not a generally available resource.
 - Links Returns all statuses containing http: and https:. The links stream is not a generally available resource.
 - Retweet Returns all retweets. The retweet stream is not a generally available resource.
+- Sites Stream Returns all events for the users you specify to follow and that OAuth'ed to your application.
 
 ### Custom behavior
 First you need to define what you want to do with the stream. Here's an example that just prints every line we get to stdout:
@@ -63,15 +67,15 @@ First you need to define what you want to do with the stream. Here's an example 
      }
     }
 
-  object TestStream {
+  object TestOAuthStream {
     def main(args: Array[String]) = {
-      val username = Config.readString("username")
-      val password = Config.readString("password")
       val processor = new CustomProcessor()
-      val twitterClient = new StreamingClient(username, password, processor)
-      twitterClient.sample
+      val consumer = Consumer(Config.readString("consumer.key"), Config.readString("consumer.secret"))
+      val token = Token(Config.readString("access.token"), Config.readString("access.secret"))
+
+      val twitterClient = new OAuthStreamingClient(consumer, token, processor)
+      twitterClient.siteStream(Set(16741237,14344469)) // The ids we are going to track, they should have OAuth'ed to us
     }
   }
-
 
 Alejandro Crosa <<alejandrocrosa@gmail.com>>

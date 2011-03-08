@@ -1,4 +1,4 @@
-package com.linkedin.led.twitter.streaming
+package com.streamer.twitter
 
 import scala.collection.mutable.ArrayBuffer
 import org.apache.commons.httpclient.util.URIUtil
@@ -7,7 +7,7 @@ import org.apache.commons.httpclient.HttpMethod
 import org.apache.commons.httpclient.methods.PostMethod
 import org.apache.commons.httpclient.methods.GetMethod
 
-import com.linkedin.led.twitter.config._
+import com.streamer.twitter.config._
 
 /**
  * StreamingMethods
@@ -51,9 +51,8 @@ trait StreamingMethods {
    * @param count Indicates the number of previous statuses to consider for delivery before transitioning to live stream delivery.
    * @param delimited Indicates that statuses should be delimited. Statuses are represented by a length, in bytes, a newline, and the status text that is exactly length bytes.
    * @param follow Specifies the list of Twitter user id's to follow
-   * @param track Specifies the list of keywords to keep track of
    */
-  def filter(count: Int, delimited: String, follow: Set[Int], track: Set[String]) = {
+  def filter(follow: Set[Int] = Set[Int](), count: Int = 0, delimited: String = "") = {
     val baseUrl = Config.readString("twitterFilterUrl")
 
     // Add the params
@@ -63,6 +62,25 @@ trait StreamingMethods {
       params += new NameValuePair("follow", follow.mkString(","))
     }
 
+    val postMethod = buildPost(baseUrl, params)
+    stream(postMethod)
+  }
+
+  /**
+   * Track 
+   *
+   * Returns public statuses that match one or more filter predicates.
+   *
+   * @param count Indicates the number of previous statuses to consider for delivery before transitioning to live stream delivery.
+   * @param delimited Indicates that statuses should be delimited. Statuses are represented by a length, in bytes, a newline, and the status text that is exactly length bytes.
+   * @param track Specifies the list of keywords to keep track of
+   */
+  def track(track: Set[String] = Set[String](), count: Int = 0, delimited: String = "") = {
+    val baseUrl = Config.readString("twitterFilterUrl")
+
+    // Add the params
+    val params = new ArrayBuffer[NameValuePair]
+
     if(!track.isEmpty) {
       params += new NameValuePair("track", track.mkString(","))
     }
@@ -70,10 +88,6 @@ trait StreamingMethods {
     val postMethod = buildPost(baseUrl, params)
     stream(postMethod)
   }
-
-  def filter(count: Int, delimited: String): Unit = filter(count, delimited, Set(), Set())
-  def filter(count: Int): Unit = filter(count, "", Set(), Set())
-  def filter: Unit = filter(0, "", Set(), Set())
 
   /**
    * Firehose
@@ -102,6 +116,25 @@ trait StreamingMethods {
 
   def firehose(count: Int): Unit = firehose(count, "")
   def firehose: Unit = firehose(0, "")
+
+  /**
+   * Site Streams
+   *
+   * @param ids to follow
+   */
+   def siteStream(follow: Set[Int]) = {
+     val baseUrl = Config.readString("twitterSiteStreamUrl")
+
+     // Add the params
+     val params = new ArrayBuffer[String]
+
+     if(!follow.isEmpty) {
+       params += "follow="+ follow.mkString(",")
+     }
+
+     val getMethod = buildGet(baseUrl, params)
+     stream(getMethod)
+   }
 
   /**
    * Links

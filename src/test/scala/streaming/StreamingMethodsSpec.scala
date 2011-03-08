@@ -1,4 +1,4 @@
-import com.linkedin.led.twitter.streaming._
+import com.streamer.twitter._
 
 import org.specs._
 
@@ -22,17 +22,17 @@ object StreamingMethodsSpec extends Specification {
     "build a Get request with specified params" in {
       val params = new ArrayBuffer[String]
         params += "count=10"
-      val request = client.buildGet("www.linkedin.com", params)
-      request.getURI mustEqual new URI("www.linkedin.com?count=10")
+      val request = client.buildGet("www.github.com", params)
+      request.getURI mustEqual new URI("www.github.com?count=10", false)
     }
 
     "build a post request with specified params" in {
       val params = new ArrayBuffer[NameValuePair]
-        params += new NameValuePair("follow", "linkedin,inapps,cool")
-      val request = client.buildPost("www.linkedin.com", params)
-      request.getURI mustEqual new URI("www.linkedin.com")
+        params += new NameValuePair("follow", "cool,works,awesome")
+      val request = client.buildPost("www.github.com", params)
+      request.getURI mustEqual new URI("www.github.com", false)
       request.getParameters.length mustEqual 1
-      request.getParameter("follow") mustEqual new NameValuePair("follow", "linkedin,inapps,cool")
+      request.getParameter("follow") mustEqual new NameValuePair("follow", "cool,works,awesome")
     }
   }
 }
