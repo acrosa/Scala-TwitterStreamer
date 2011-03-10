@@ -58,7 +58,10 @@ trait Client {
          // You must override the process method in order to do a custom processing with the stream
          streamProcessor.process(method.getResponseBodyAsStream())
        } catch {
-         case e: InterruptedException => return;
+         case e: InterruptedException => {
+           method.abort
+           method.releaseConnection
+           return; }
          case e: HttpException => httpBackOff.backOff
          case e: IOException   => tcpBackOff.backOff
          case _ =>
