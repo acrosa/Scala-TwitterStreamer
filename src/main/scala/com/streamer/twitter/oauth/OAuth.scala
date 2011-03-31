@@ -45,7 +45,7 @@ object OAuth {
       case (k, v) => (encode(k)) + "=\"%s\"".format(encode(v))
     }.mkString(",")
 
-    httpMethod.addRequestHeader("Authorization", "OAuth " + encodedHeaders)
+    httpMethod.setRequestHeader("Authorization", "OAuth " + encodedHeaders)
     httpMethod
   }
 

@@ -122,7 +122,7 @@ trait StreamingMethods {
    *
    * @param ids to follow
    */
-   def siteStream(follow: Set[Long]) = {
+   def siteStream(follow: Set[Long], withParam: String = "followings") = {
      val baseUrl = Config.readString("twitterSiteStreamUrl")
 
      // Add the params
@@ -131,6 +131,8 @@ trait StreamingMethods {
      if(!follow.isEmpty) {
        params += "follow="+ follow.mkString(",")
      }
+
+     params += ("with=" + withParam)
 
      val getMethod = buildGet(baseUrl, params)
      stream(getMethod)

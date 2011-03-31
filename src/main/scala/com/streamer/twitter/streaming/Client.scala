@@ -20,11 +20,9 @@ trait Client {
 
   /**
     * Back off strategy is:
-    * TCP errors start at 250 miliseconds and cap at 16 seconds
-    * HTTP errors start at 10 seconds and cap at 240 seconds
+    * Start at 2 seconds, and go up to 128
     */
-   val tcpBackOff  = BackOff(250, 16000)
-   val httpBackOff = BackOff(10000, 240000)
+   val backOff = BackOff(2000, 128000)
 
    // Method that returns a constructed and initialized client, Basic Auth or OAuth
    def getClient(method: HttpMethod): HttpClient
@@ -52,23 +50,29 @@ trait Client {
          }
 
          // Reset the errors since the request was successful
-         this.resetBackOffs()
+         backOff.reset
 
          // Let's delegate the processing to the StreamProcessor object
          // You must override the process method in order to do a custom processing with the stream
          streamProcessor.process(method.getResponseBodyAsStream())
        } catch {
          case e: InterruptedException => {
+           println(e)
            method.abort
            method.releaseConnection
            return; }
-         case e: HttpException => httpBackOff.backOff
-         case e: IOException   => tcpBackOff.backOff
-         case _ =>
+         case e: HttpException => {
+           println(e)
+         }
+         case e: IOException   => {
+           println(e)
+         }
        }
      } finally {
        method.releaseConnection
      }
+
+     backOff.backOff
 
      // This is a recursive method that internally backs off when there's an exception or error processing
      stream(method)
@@ -85,13 +89,5 @@ trait Client {
      // Default recovery procedure can be replaced with a custom one, let's do that.
      client.getParams.setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(0, false))
      client
-   }
-
-   /*
-    * Resets the error counts for the back off strategy.
-    */
-   def resetBackOffs() = {
-     httpBackOff.reset()
-     tcpBackOff.reset()
    }
 }
