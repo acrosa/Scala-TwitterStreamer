@@ -30,7 +30,7 @@ Create a library to support the Twitter streaming API, the reconnect strategy, O
 2. Edit config/TwitterStreamer.conf and add your Twitter username and password *Important*
    If you want to use OAuth authentication enter your Consumer pair Key, and Access token secret. You can obtain your Access Token by going to http://dev.twitter.com/apps
 3. $ ./sbt update
-4. $ ./sh example/run_example.sh
+4. $ ./sbt run
 5. watch the tweets on your screen
 
 ## Usage
